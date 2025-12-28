@@ -19,3 +19,9 @@ Este proyecto implementa un entorno de **Security Orchestration, Automation, and
 ## 📂 Estructura del Repositorio
 - `docker-compose.yml`: Definición de la infraestructura como código (IaC).
 - `workflows/`: Flujos de automatización de n8n (JSON).
+
+## 🚀 Hitos Alcanzados (Fase 2)
+- **Despliegue de Agente (Endpoint):** Instalación y configuración de Wazuh Agent en Parrot Security OS.
+- **Troubleshooting Avanzado:** Resolución de conflictos de dependencias (DPKG), alineación de versiones (APT Pinning) y gestión de identidades duplicadas.
+- **Conexión SIEM:** Establecimiento de canal seguro TCP/1514 entre el Host y el Manager Dockerizado.
+- **[📄 Ver Reporte Técnico Detallado de Fase 2](documentation/phase2/REPORT.md)**
