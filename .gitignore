@@ -1,0 +1,10 @@
+# --- Archivos Sensibles (NUNCA SUBIR) ---
+wazuh_config/wazuh_passwords.txt
+n8n_data/database.sqlite
+documentation/phase1/config.json.old
+*.log
+*.journal
+
+# --- Temporales y Basura ---
+.DS_Store
+n8n_data/

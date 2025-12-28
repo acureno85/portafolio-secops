@@ -1,0 +1,7 @@
+NAMES             STATUS                          PORTS
+agent-zero        Up 2 minutes                    
+wazuh-dashboard   Up 2 minutes                    443/tcp, 0.0.0.0:443->5601/tcp, :::443->5601/tcp
+wazuh-manager     Up 2 minutes                    0.0.0.0:1514-1515->1514-1515/tcp, :::1514-1515->1514-1515/tcp, 514/udp, 0.0.0.0:55000->55000/tcp, :::55000->55000/tcp, 1516/tcp
+suricata          Restarting (1) 57 seconds ago   
+wazuh-indexer     Up 2 minutes                    9200/tcp
+n8n               Up 2 minutes                    0.0.0.0:5678->5678/tcp, :::5678->5678/tcp

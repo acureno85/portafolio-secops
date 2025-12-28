@@ -1,0 +1,70 @@
+[
+    {
+        "Name": "portafolio-secops_secops-net",
+        "Id": "cb7e02ff2e1e06ee7637da1d0feebaabd39990e2eef8b214bb97006c54f8523f",
+        "Created": "2025-12-26T20:30:07.152071694-06:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": null,
+            "Config": [
+                {
+                    "Subnet": "172.18.0.0/16",
+                    "Gateway": "172.18.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": true,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "1a6516bc2d5f9863adbc56a677724e48be20b9b54827a55cd8dcfb40777f9657": {
+                "Name": "wazuh-dashboard",
+                "EndpointID": "1c95f6ec610be7575ddd77ae67b4b7af4ce9c85c7adadd8d25ab60e24ed2a24a",
+                "MacAddress": "02:42:ac:12:00:06",
+                "IPv4Address": "172.18.0.6/16",
+                "IPv6Address": ""
+            },
+            "20e43dd328e0cf565a3dbca9e5898a63fecd0e7582772f1cf477f4a420f203c1": {
+                "Name": "wazuh-indexer",
+                "EndpointID": "d4217357a5cd7a7e786a95307f7143385d9211b7fdfd26c8d9c5ce7fa6355a8b",
+                "MacAddress": "02:42:ac:12:00:02",
+                "IPv4Address": "172.18.0.2/16",
+                "IPv6Address": ""
+            },
+            "7b0be4b8b1fd183a3744f2b00b287d9f9e686f420e20b08c1aadb59dbd18df01": {
+                "Name": "agent-zero",
+                "EndpointID": "bedc2a3465093ee3258dd6c8d76fa233707c7390c36b9a369b7daaa7e6cbe98d",
+                "MacAddress": "02:42:ac:12:00:03",
+                "IPv4Address": "172.18.0.3/16",
+                "IPv6Address": ""
+            },
+            "862df4081f7a4e0c978fa34aa1ef24f33a770d34438868473e87102b18990633": {
+                "Name": "wazuh-manager",
+                "EndpointID": "4ade817672f4a01423539181380bd004dd516ebffec6dc8872b2bd19c69f7a78",
+                "MacAddress": "02:42:ac:12:00:05",
+                "IPv4Address": "172.18.0.5/16",
+                "IPv6Address": ""
+            },
+            "ef67487e6d91c150d3971878f6542dacaca6f9dc0bdc49492e3e1c51887e7e85": {
+                "Name": "n8n",
+                "EndpointID": "f08bf54dfe7b8e7627a5327cc6ee36bbe039fa3340c42d58789b41f62b2b7f76",
+                "MacAddress": "02:42:ac:12:00:04",
+                "IPv4Address": "172.18.0.4/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {
+            "com.docker.compose.network": "secops-net",
+            "com.docker.compose.project": "portafolio-secops",
+            "com.docker.compose.version": "1.29.2"
+        }
+    }
+]
