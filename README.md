@@ -53,3 +53,27 @@ Prueba de concepto realizada simulando una respuesta de comando malicioso (`uid=
 
 ---
 *Proyecto Finalizado - Infraestructura SecOps 100% Operativa.*
+
+## 🧠 Fase 4: Inteligencia de Amenazas (VirusTotal Integration)
+
+Se ha enriquecido la capacidad de detección integrando el SIEM con fuentes de inteligencia externas.
+
+### 🔬 Capacidad Implementada
+* **Integración API VirusTotal:** Automatización de consultas de hashes de archivos.
+* **FIM Real-time:** Monitoreo en tiempo real de directorios críticos (`/Descargas`) para detección inmediata de "droppers".
+* **Detección de Malware:** Identificación automática de binarios maliciosos basada en la reputación de 70+ motores antivirus.
+
+### 📸 Evidencia de Detección
+Prueba realizada descargando el archivo estandarizado EICAR. El sistema detectó la escritura en disco (FIM), extrajo el hash, consultó la API y generó una alerta de Nivel 12 (Crítico) en segundos.
+
+![Alerta de Malware VirusTotal](evidencias/fase4_virustotal_detect.png)
+
+### ⚙️ Configuración Realizada
+1.  Obtención y configuración de API Key de VirusTotal en Wazuh Manager.
+2.  Configuración de FIM en el Agente (Parrot OS) para monitoreo `realtime`:
+    ```xml
+    <directories realtime="yes" check_all="yes">/home/abraham/Descargas</directories>
+    ```
+
+---
+*Próximos Pasos: Fase 5 - Respuesta Automatizada con IA (SOAR).*
