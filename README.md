@@ -25,3 +25,31 @@ Este proyecto implementa un entorno de **Security Orchestration, Automation, and
 - **Troubleshooting Avanzado:** Resolución de conflictos de dependencias (DPKG), alineación de versiones (APT Pinning) y gestión de identidades duplicadas.
 - **Conexión SIEM:** Establecimiento de canal seguro TCP/1514 entre el Host y el Manager Dockerizado.
 - **[📄 Ver Reporte Técnico Detallado de Fase 2](documentation/phase2/REPORT.md)**
+
+## 🌐 Fase 3: Seguridad de Red (NIDS con Suricata)
+
+Se ha implementado una capa de seguridad perimetral utilizando **Suricata** como Sistema de Detección de Intrusos en Red (NIDS).
+
+### 🛡️ Arquitectura de Red
+* **Motor NIDS:** Suricata instalado en el host (Parrot OS) escuchando en modo promiscuo sobre la interfaz de red principal.
+* **Integración:** El Agente Wazuh lee el archivo `eve.json` de Suricata en tiempo real.
+* **Correlación:** El Manager decodifica los eventos JSON y genera alertas de seguridad basadas en reglas de amenazas emergentes (ET Open Rules).
+
+### 📸 Evidencia de Detección
+Prueba de concepto realizada simulando una respuesta de comando malicioso (`uid=0(root)`). Suricata inspeccionó el paquete, detectó la firma y Wazuh generó la alerta de nivel alto.
+
+![Alerta de Suricata en Wazuh](evidencias/fase3_suricata_alert.png)
+
+### ⚙️ Configuración Realizada
+1.  Instalación de Suricata y actualización de reglas (47,000+ firmas).
+2.  Configuración de escucha en interfaz `wlp4s0`.
+3.  Modificación de `ossec.conf` en el agente para ingestión de logs:
+    ```xml
+    <localfile>
+      <log_format>json</log_format>
+      <location>/var/log/suricata/eve.json</location>
+    </localfile>
+    ```
+
+---
+*Proyecto Finalizado - Infraestructura SecOps 100% Operativa.*
