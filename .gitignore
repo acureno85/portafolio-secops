@@ -8,3 +8,11 @@ documentation/phase1/config.json.old
 # --- Temporales y Basura ---
 .DS_Store
 n8n_data/
+
+# --- Protecciones Extra ---
+# Datos de otros proyectos presentes
+n8n_data/
+suricata/logs/
+
+# Basura organizada
+old_attempts/
