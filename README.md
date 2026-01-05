@@ -78,3 +78,34 @@ Prueba realizada descargando el archivo estandarizado EICAR. El sistema detectó
 
 ---
 *Próximos Pasos: Fase 5 - Respuesta Automatizada con IA (SOAR).*
+
+## 🤖 Fase 5: SOAR & IA Generativa (Wazuh + n8n + Ollama)
+
+Se ha implementado una arquitectura de **Respuesta Automatizada (SOAR)** enriquecida con **Inteligencia Artificial Generativa (LLM)** corriendo localmente. El sistema no solo detecta, sino que "razona" sobre el incidente.
+
+### 🧠 Arquitectura de Flujo de Datos
+1. **Detección:** Wazuh detecta un ataque de fuerza bruta (SSH).
+2. **Disparador:** El Manager envía la alerta vía Webhook al orquestador n8n.
+3. **Análisis IA:** n8n envía los logs crudos a **Ollama (Modelo LLM)**.
+4. **Respuesta Inteligente:** La IA analiza la severidad, mapea la táctica MITRE ATT&CK y genera recomendaciones defensivas en lenguaje natural.
+
+### 🛠️ Stack de Automatización
+* **Orquestador:** n8n (Dockerized).
+* **Motor IA:** Ollama (Corriendo modelo Llama3/Mistral localmente).
+* **Vector DB:** Qdrant (Para futura implementación de RAG).
+
+### 📸 Evidencia de Análisis IA
+En la siguiente imagen se observa el flujo de ejecución en n8n, donde el modelo de IA recibe el log de Wazuh y determina una severidad "ALTA" con pasos de mitigación específicos.
+
+![Flujo SOAR con Análisis de IA](evidencias/fase5_soar_ai_response.png)
+
+### 📄 Código del Flujo
+El flujo de automatización completo se encuentra disponible en: [`workflows/soar_wazuh_ai_analysis.json`](workflows/soar_wazuh_ai_analysis.json)
+
+---
+# 🏁 Estado del Proyecto: COMPLETADO
+**Infraestructura SecOps Next-Gen totalmente operativa.**
+* [x] SIEM (Wazuh)
+* [x] NIDS (Suricata)
+* [x] Threat Intel (VirusTotal)
+* [x] AI Automation (n8n + Ollama)

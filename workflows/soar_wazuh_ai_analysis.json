@@ -1,0 +1,99 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "wazuh-alerts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b3cf4940-5f1e-464a-b0dc-9e6aaad02926",
+      "name": "SOAR - Wazuh AI Analysis",
+      "webhookId": "0957e271-7c57-4baf-a731-7ce7700b961e"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://soar_ollama:11434/api/generate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"llama3.2:3b\",\n  \"prompt\": \"Eres un analista SOC. Analiza esta alerta de seguridad y proporciona: 1) Severidad (Alta/Media/Baja), 2) Descripción del ataque, 3) Recomendación de respuesta.\\n\\nAlerta: {{ $json.body.alert.rule.description }}\\nNivel: {{ $json.body.alert.rule.level }}\\nAgente: {{ $json.body.alert.agent.name }}\\nIP Origen: {{ $json.body.alert.source.ip }}\",\n  \"stream\": false\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "8d7c6bff-bc9c-4c48-809c-44f14cb1b5d1",
+      "name": "Ollama AI Analysis"
+    }
+  ],
+  "pinData": {
+    "SOAR - Wazuh AI Analysis": [
+      {
+        "json": {
+          "headers": {
+            "host": "localhost:5678",
+            "user-agent": "curl/8.14.1",
+            "accept": "*/*",
+            "content-type": "application/json",
+            "content-length": "353"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "alert": {
+              "rule": {
+                "id": "5710",
+                "level": 10,
+                "description": "sshd: Attempt to login using a non-existent user"
+              },
+              "agent": {
+                "name": "test-agent",
+                "ip": "192.168.1.100"
+              },
+              "source": {
+                "ip": "10.0.0.50"
+              },
+              "timestamp": "2026-01-05T04:30:00.000Z"
+            }
+          },
+          "webhookUrl": "http://n8n:5678/webhook-test/wazuh-alerts",
+          "executionMode": "test"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "SOAR - Wazuh AI Analysis": {
+      "main": [
+        [
+          {
+            "node": "Ollama AI Analysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "3a67d66b-1732-49a0-a05f-3a691acc65cd",
+  "meta": {
+    "instanceId": "22c4cb887d84fb139a7db07d16871e2472915c6a1e514967b2aa41f26aa86452"
+  },
+  "id": "L5KLDEzJYSihjaBe",
+  "tags": []
+}
