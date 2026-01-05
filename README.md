@@ -24,6 +24,7 @@ Este proyecto implementa un entorno de **Security Orchestration, Automation, and
 - **Despliegue de Agente (Endpoint):** Instalación y configuración de Wazuh Agent en Parrot Security OS.
 - **Troubleshooting Avanzado:** Resolución de conflictos de dependencias (DPKG), alineación de versiones (APT Pinning) y gestión de identidades duplicadas.
 - **Conexión SIEM:** Establecimiento de canal seguro TCP/1514 entre el Host y el Manager Dockerizado.
+- ![Despliegue de SIEM (Wazuh) exitoso](evidencias/fase2_agente_activo.png)
 - **[📄 Ver Reporte Técnico Detallado de Fase 2](documentation/phase2/REPORT.md)**
 
 ## 🌐 Fase 3: Seguridad de Red (NIDS con Suricata)
