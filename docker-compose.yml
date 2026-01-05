@@ -1,17 +1,21 @@
 version: '3.8'
 
 services:
-  # Generador de Certificados (Se ejecuta, crea certs y muere)
+  # ===========================================================================
+  # WAZUH STACK
+  # ===========================================================================
   generate-certs:
-    image: wazuh/wazuh-certs-tool:4.9.0
+    image: wazuh/wazuh-certs-generator:0.0.2
     container_name: wazuh-certs-tool
     volumes:
       - ./config/wazuh_indexer_ssl.yml:/app/config.yml
       - ./certs:/app/certs
     command: bash -c "if [ ! -f /app/certs/root-ca.pem ]; then /entrypoint.sh; chown -R 1000:1000 /app/certs; chmod -R 500 /app/certs; echo 'Certs generated'; else echo 'Certs exist'; fi"
+    networks:
+      - soar_network
 
   wazuh.indexer:
-    image: wazuh/wazuh-indexer:4.9.0
+    image: wazuh/wazuh-indexer:4.7.5
     hostname: wazuh.indexer
     container_name: wazuh.indexer
     restart: always
@@ -32,9 +36,11 @@ services:
       timeout: 10s
       retries: 5
       start_period: 60s
+    networks:
+      - soar_network
 
   wazuh.manager:
-    image: wazuh/wazuh-manager:4.9.0
+    image: wazuh/wazuh-manager:4.7.5
     hostname: wazuh.manager
     container_name: wazuh.manager
     restart: always
@@ -48,13 +54,18 @@ services:
       - INDEXER_PASSWORD=admin
     volumes:
       - wazuh-manager-data:/var/ossec/api/configuration
+      - wazuh-manager-etc:/var/ossec/etc
+      - wazuh-manager-logs:/var/ossec/logs
+      - wazuh-manager-integrations:/var/ossec/integrations
       - ./certs:/etc/wazuh-manager/certs:ro
     depends_on:
       wazuh.indexer:
         condition: service_healthy
+    networks:
+      - soar_network
 
   wazuh.dashboard:
-    image: wazuh/wazuh-dashboard:4.9.0
+    image: wazuh/wazuh-dashboard:4.7.5
     hostname: wazuh.dashboard
     container_name: wazuh.dashboard
     restart: always
@@ -70,7 +81,67 @@ services:
     depends_on:
       - wazuh.indexer
       - wazuh.manager
+    networks:
+      - soar_network 
+  
+  # ===========================================================================
+  # SOAR STACK - FASE 5
+  # ===========================================================================
+  
+  n8n:
+    image: docker.n8n.io/n8nio/n8n:latest
+    container_name: portafolio_n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=0.0.0.0
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://n8n:5678/
+      - N8N_ENCRYPTION_KEY=ClaveSecreta2024SecOpsAbraham
+      - GENERIC_TIMEZONE=America/Mexico_City
+      - TZ=America/Mexico_City
+    volumes:
+      - ./n8n_data:/home/node/.n8n
+    networks:
+      - soar_network
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: portafolio_qdrant
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    networks:
+      - soar_network
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: portafolio_ollama
+    restart: always
+    ports:
+      - "11434:11434"
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - soar_network
 
 volumes:
   wazuh-indexer-data:
   wazuh-manager-data:
+  wazuh-manager-etc:
+  wazuh-manager-logs:
+  wazuh-manager-integrations:
+  qdrant_data:
+  ollama_data:
+
+networks:
+  soar_network:
+    driver: bridge
