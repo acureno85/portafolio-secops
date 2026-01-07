@@ -1,111 +1,159 @@
-# 🛡️ Portafolio SecOps: Automatización de Seguridad con Wazuh y n8n
+# 📊 Ocelotl Watch
 
-## 📋 Descripción del Proyecto
-Este proyecto implementa un entorno de **Security Orchestration, Automation, and Response (SOAR)** utilizando Docker. El objetivo es orquestar la seguridad defensiva mediante la integración de **Wazuh (SIEM)** y **n8n (Workflow Automation)**.
+**Security Operations Center & Continuous Monitoring**
 
-## 🚀 Hitos Alcanzados (Fase 1)
-- **Despliegue de Infraestructura:** Implementación de Wazuh Manager, Indexer y Dashboard mediante Docker Compose.
-- **Gestión de Identidad (IAM):** Recuperación y endurecimiento de credenciales API (RBAC) en entorno contenedorizado.
-- **Automatización de Autenticación:** Desarrollo de un flujo en n8n para la gestión rotativa de Tokens JWT.
-- **Conectividad Interna:** Configuración de networking seguro en Docker () para comunicación API Server-to-Server.
+[![License: MIT](https://img.shields.io/badge/License-MIT-FFB800.svg)](LICENSE)
+[![Wazuh](https://img.shields.io/badge/Wazuh-4.9.2-0D0D0D.svg)](https://wazuh.com/)
+[![Grafana](https://img.shields.io/badge/Grafana-11.x-FF6F00.svg)](https://grafana.com/)
+[![Part of Ocelotl](https://img.shields.io/badge/Ocelotl-Watch-004D40.svg)](https://github.com/acureno85)
 
-## 🛠️ Stack Tecnológico
-- **OS:** Parrot Security OS
-- **SIEM:** Wazuh 4.7.2
-- **Orquestación:** n8n (Dockerized)
-- **Contenerización:** Docker & Docker Compose
-- **Scripting:** Python & Bash
+> *"Como el jaguar que vigila desde las sombras, Ocelotl Watch observa cada movimiento sin ser detectado."*
 
-## 📂 Estructura del Repositorio
-- `docker-compose.yml`: Definición de la infraestructura como código (IaC).
-- `workflows/`: Flujos de automatización de n8n (JSON).
-
-## 🚀 Hitos Alcanzados (Fase 2)
-- **Despliegue de Agente (Endpoint):** Instalación y configuración de Wazuh Agent en Parrot Security OS.
-- **Troubleshooting Avanzado:** Resolución de conflictos de dependencias (DPKG), alineación de versiones (APT Pinning) y gestión de identidades duplicadas.
-- **Conexión SIEM:** Establecimiento de canal seguro TCP/1514 entre el Host y el Manager Dockerizado.
-- ![Despliegue de SIEM (Wazuh) exitoso](evidencias/fase2_agente_activo.png)
-- **[📄 Ver Reporte Técnico Detallado de Fase 2](documentation/phase2/REPORT.md)**
-
-## 🌐 Fase 3: Seguridad de Red (NIDS con Suricata)
-
-Se ha implementado una capa de seguridad perimetral utilizando **Suricata** como Sistema de Detección de Intrusos en Red (NIDS).
-
-### 🛡️ Arquitectura de Red
-* **Motor NIDS:** Suricata instalado en el host (Parrot OS) escuchando en modo promiscuo sobre la interfaz de red principal.
-* **Integración:** El Agente Wazuh lee el archivo `eve.json` de Suricata en tiempo real.
-* **Correlación:** El Manager decodifica los eventos JSON y genera alertas de seguridad basadas en reglas de amenazas emergentes (ET Open Rules).
-
-### 📸 Evidencia de Detección
-Prueba de concepto realizada simulando una respuesta de comando malicioso (`uid=0(root)`). Suricata inspeccionó el paquete, detectó la firma y Wazuh generó la alerta de nivel alto.
-
-![Alerta de Suricata en Wazuh](evidencias/fase3_suricata_alert.png)
-
-### ⚙️ Configuración Realizada
-1.  Instalación de Suricata y actualización de reglas (47,000+ firmas).
-2.  Configuración de escucha en interfaz `wlp4s0`.
-3.  Modificación de `ossec.conf` en el agente para ingestión de logs:
-    ```xml
-    <localfile>
-      <log_format>json</log_format>
-      <location>/var/log/suricata/eve.json</location>
-    </localfile>
-    ```
+**[🎨 View Interactive Logo](docs/index.html)**
 
 ---
-*Proyecto Finalizado - Infraestructura SecOps 100% Operativa.*
 
-## 🧠 Fase 4: Inteligencia de Amenazas (VirusTotal Integration)
+## 🎯 Overview
 
-Se ha enriquecido la capacidad de detección integrando el SIEM con fuentes de inteligencia externas.
+**Ocelotl Watch** es el ojo vigilante de la Ocelotl Security Platform - un SOC completo con monitoreo 24/7, detección de amenazas y análisis de comportamiento.
 
-### 🔬 Capacidad Implementada
-* **Integración API VirusTotal:** Automatización de consultas de hashes de archivos.
-* **FIM Real-time:** Monitoreo en tiempo real de directorios críticos (`/Descargas`) para detección inmediata de "droppers".
-* **Detección de Malware:** Identificación automática de binarios maliciosos basada en la reputación de 70+ motores antivirus.
-
-### 📸 Evidencia de Detección
-Prueba realizada descargando el archivo estandarizado EICAR. El sistema detectó la escritura en disco (FIM), extrajo el hash, consultó la API y generó una alerta de Nivel 12 (Crítico) en segundos.
-
-![Alerta de Malware VirusTotal](evidencias/fase4_virustotal_detect.png)
-
-### ⚙️ Configuración Realizada
-1.  Obtención y configuración de API Key de VirusTotal en Wazuh Manager.
-2.  Configuración de FIM en el Agente (Parrot OS) para monitoreo `realtime`:
-    ```xml
-    <directories realtime="yes" check_all="yes">/home/abraham/Descargas</directories>
-    ```
+```
+    OFENSIVO   →   DEFENSIVO   →   RESPUESTA
+       🔐             📊              🛡️
+   
+     ATTACK         WATCH          STRIKE
+  (El Atacante)  (El Vigilante)  (El Vengador)
+                      ↑
+                  YOU ARE HERE
+```
 
 ---
-*Próximos Pasos: Fase 5 - Respuesta Automatizada con IA (SOAR).*
 
-## 🤖 Fase 5: SOAR & IA Generativa (Wazuh + n8n + Ollama)
+## ✨ Features
 
-Se ha implementado una arquitectura de **Respuesta Automatizada (SOAR)** enriquecida con **Inteligencia Artificial Generativa (LLM)** corriendo localmente. El sistema no solo detecta, sino que "razona" sobre el incidente.
+### 📊 Security Monitoring
+- **Wazuh SIEM** - Security Information & Event Management
+- **Real-time Alerts** - Instant threat notifications
+- **Log Aggregation** - Centralized logging
+- **File Integrity** - FIM monitoring
+- **Vulnerability Detection** - Continuous scanning
 
-### 🧠 Arquitectura de Flujo de Datos
-1. **Detección:** Wazuh detecta un ataque de fuerza bruta (SSH).
-2. **Disparador:** El Manager envía la alerta vía Webhook al orquestador n8n.
-3. **Análisis IA:** n8n envía los logs crudos a **Ollama (Modelo LLM)**.
-4. **Respuesta Inteligente:** La IA analiza la severidad, mapea la táctica MITRE ATT&CK y genera recomendaciones defensivas en lenguaje natural.
+### 📈 Dashboards & Visualization
+- **Grafana Integration** - Custom security dashboards
+- **Kibana Analytics** - Deep log analysis
+- **Executive Views** - Business-level metrics
+- **Compliance Reports** - Automated reporting
 
-### 🛠️ Stack de Automatización
-* **Orquestador:** n8n (Dockerized).
-* **Motor IA:** Ollama (Corriendo modelo Llama3/Mistral localmente).
-* **Vector DB:** Qdrant (Para futura implementación de RAG).
-
-### 📸 Evidencia de Análisis IA
-En la siguiente imagen se observa el flujo de ejecución en n8n, donde el modelo de IA recibe el log de Wazuh y determina una severidad "ALTA" con pasos de mitigación específicos.
-
-![Flujo SOAR con Análisis de IA](evidencias/fase5_soar_ai_response.png)
-
-### 📄 Código del Flujo
-El flujo de automatización completo se encuentra disponible en: [`workflows/soar_wazuh_ai_analysis.json`](workflows/soar_wazuh_ai_analysis.json)
+### 🔍 Threat Detection
+- **Behavioral Analysis** - Anomaly detection
+- **IOC Matching** - Indicator correlation
+- **MITRE ATT&CK** - Technique mapping
+- **Threat Intelligence** - Feed integration
 
 ---
-# 🏁 Estado del Proyecto: COMPLETADO
-**Infraestructura SecOps Next-Gen totalmente operativa.**
-* [x] SIEM (Wazuh)
-* [x] NIDS (Suricata)
-* [x] Threat Intel (VirusTotal)
-* [x] AI Automation (n8n + Ollama)
+
+## 🚀 Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/acureno85/portafolio-secops.git ocelotl-watch
+cd ocelotl-watch
+
+# Deploy stack
+docker-compose up -d
+
+# Verify services
+docker-compose ps
+```
+
+**Access Points:**
+- 🌐 Wazuh Dashboard: https://localhost:443
+- 📊 Grafana: http://localhost:3000
+- 🔍 Kibana: http://localhost:5601
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    OCELOTL WATCH                        │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐   │
+│  │  Wazuh  │  │ Grafana │  │ Elastic │  │  Threat │   │
+│  │  SIEM   │  │  Dash   │  │ Search  │  │  Intel  │   │
+│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘   │
+│       │            │            │            │         │
+│       └────────────┴────────────┴────────────┘         │
+│                         │                               │
+│              ┌──────────┴──────────┐                   │
+│              │   Data Lake / SIEM  │                   │
+│              └─────────────────────┘                   │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 🐆 Ocelotl Philosophy
+
+> *"El jaguar observa en silencio. Conoce cada movimiento de su territorio."*
+
+**Características del Jaguar Vigilante:**
+
+| Rasgo | Aplicación en SOC |
+|-------|-------------------|
+| 👁️ **Visión nocturna** | Detección en la oscuridad |
+| 🔇 **Silencio** | Monitoreo pasivo |
+| 🎯 **Atención** | Alertas precisas |
+| 🧠 **Memoria** | Correlación histórica |
+| 🌍 **Territorio** | Cobertura completa |
+
+---
+
+## 🎨 Brand Colors
+
+```css
+/* Ocelotl Watch Color Palette */
+--ocelotl-jade: #004D40;       /* Primary - Jungle jade */
+--ocelotl-teal: #00695C;       /* Secondary - Deep teal */
+--ocelotl-mint: #00FFB8;       /* Accent - Electric mint */
+--ocelotl-cyan: #00FFFF;       /* Info - Cyan glow */
+--ocelotl-gold: #FFB800;       /* Warning - Alert gold */
+```
+
+---
+
+## 🐆 Part of Ocelotl Security Platform
+
+| Product | Focus | Status |
+|---------|-------|--------|
+| **[Ocelotl Attack](https://github.com/acureno85/pentester-pro)** | Offensive Testing 🔐 | Active |
+| **[Ocelotl Watch](https://github.com/acureno85/portafolio-secops)** | Security Monitoring 📊 | ← YOU ARE HERE |
+| **[Ocelotl Strike](https://github.com/acureno85/soar-ai-platform)** | Incident Response 🛡️ | Active |
+
+---
+
+## 📄 License
+
+MIT License - Free as the jaguar in the jungle
+
+---
+
+## 👤 Author
+
+**Abraham Cureno** - *Ocelotl Warrior*
+
+- 🐆 GitHub: [@acureno85](https://github.com/acureno85)
+- 💼 LinkedIn: [Abraham Cureno](https://linkedin.com/in/abrahamcureno)
+
+---
+
+<div align="center">
+
+**📊 Ocelotl Watch** - *Tlachialistli in Ocelotl*
+
+*"La vigilancia del Jaguar"*
+
+Made with ❤️ in Mexico 🇲🇽
+
+</div>
